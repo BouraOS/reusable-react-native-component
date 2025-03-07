@@ -121,6 +121,7 @@ const TestApp = () => {
     { label: 'Option 4', value: '4' },
   ];
   return (
+    <View style={styles.container}>   // keep this, dont remove
       <View style={styles.multiSelectContainer}>
         <Text style={styles.title}>Select Options</Text>
         <Multiselect
@@ -131,6 +132,7 @@ const TestApp = () => {
         />
         <Text style={styles.selectedText}>Selected: {selectedValues.join(', ')}</Text>
       </View>
+    </View>
   );
 };
 */
