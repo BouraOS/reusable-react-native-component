@@ -76,8 +76,8 @@ const Multiselect: React.FC<MultiselectProps> = ({
         )}
         <View style={styles.dropdownArrow}>
           <DropdownArrow
-            width={24}
-            height={24}
+            width={22}
+            height={22}
             fill="#666"
             style={isOpen ? styles.openDropDrown : styles.closeDropDown}
           />
@@ -108,3 +108,29 @@ const Multiselect: React.FC<MultiselectProps> = ({
 };
 
 export default Multiselect;
+
+// example usage
+
+/*
+const TestApp = () => {
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const options = [
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' },
+    { label: 'Option 4', value: '4' },
+  ];
+  return (
+      <View style={styles.multiSelectContainer}>
+        <Text style={styles.title}>Select Options</Text>
+        <Multiselect
+          options={options}
+          selected={selectedValues}
+          onChange={setSelectedValues}
+          placeholder="Choose options"
+        />
+        <Text style={styles.selectedText}>Selected: {selectedValues.join(', ')}</Text>
+      </View>
+  );
+};
+*/

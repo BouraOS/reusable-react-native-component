@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     maxWidth: 500,
   },
   tagsContainer: {
+    minHeight: 35,
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
@@ -13,7 +14,6 @@ const styles = StyleSheet.create({
     borderColor: '#e0e0e0',
     borderRadius: 4,
     padding: 4,
-    minHeight: 40,
     position: 'relative',
   },
   tagsContainerOpen: {
@@ -54,12 +54,10 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   clearAll: {
+    marginLeft: 'auto',
     padding: 2,
-    backgroundColor: 'red',
   },
-  dropdownArrow: {
-    backgroundColor: 'steelblue',
-  },
+  dropdownArrow: {},
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
@@ -87,7 +85,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#e6f2ff',
   },
   closeDropDown: {},
-
   openDropDrown: {
     transform: [{ rotate: '180deg' }],
   },
