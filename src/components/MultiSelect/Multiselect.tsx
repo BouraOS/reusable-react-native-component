@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Modal } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  Modal,
+  Dimensions,
+} from 'react-native';
 import styles from './styles';
 import DropdownArrow from '../../../assets/icons/svg/dropdownArrow';
 import CloseIcon from '../../../assets/icons/svg/closeIcon';
@@ -23,6 +31,14 @@ const Multiselect: React.FC<MultiselectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [dropdownPosition, setDropdownPosition] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+    direction: 'below', // 'below' or 'above'
+  });
+  const containerRef = useRef<View>(null);
+  const screenHeight = Dimensions.get('window').height;
 
   const handleSelect = (value: string) => {
     if (selected.includes(value)) {
@@ -43,9 +59,39 @@ const Multiselect: React.FC<MultiselectProps> = ({
   const filteredOptions = options.filter(option =>
     option.label.toLowerCase().includes(search.toLowerCase()),
   );
+  const handleLayout = () => {
+    if (containerRef.current) {
+      containerRef.current.measureInWindow((x, y, width, height) => {
+        // Calculate available space below the input
+        const spaceBelow = screenHeight - y - height;
+        const spaceAbove = y;
+        const dropdownHeight = 200; // Your desired dropdown height
+
+        // Determine if dropdown should appear above or below
+        const direction =
+          spaceBelow < dropdownHeight && spaceAbove > spaceBelow ? 'above' : 'below';
+
+        // Calculate top position based on direction
+        const top = direction === 'below' ? y + height : y - dropdownHeight;
+
+        setDropdownPosition({
+          top,
+          left: x,
+          width: width,
+          direction,
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      handleLayout();
+    }
+  }, [isOpen]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} ref={containerRef} onLayout={handleLayout}>
       <TouchableOpacity
         style={[styles.tagsContainer, isOpen && styles.tagsContainerOpen]}
         onPress={() => setIsOpen(!isOpen)}>
@@ -84,9 +130,20 @@ const Multiselect: React.FC<MultiselectProps> = ({
         </View>
       </TouchableOpacity>
 
-      <Modal visible={isOpen} transparent animationType="slide">
+      <Modal visible={isOpen} transparent animationType="fade">
         <TouchableOpacity style={styles.modalOverlay} onPress={() => setIsOpen(false)}>
-          <View style={styles.dropdown}>
+          <View
+            style={[
+              styles.dropdown,
+              {
+                position: 'absolute',
+                top: dropdownPosition.top,
+                left: dropdownPosition.left,
+                width: dropdownPosition.width,
+                maxHeight: 200,
+              },
+              dropdownPosition.direction === 'above' && styles.dropdownAbove,
+            ]}>
             <ScrollView>
               {filteredOptions.map(option => (
                 <TouchableOpacity

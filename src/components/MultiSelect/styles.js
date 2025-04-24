@@ -60,13 +60,9 @@ const styles = StyleSheet.create({
   dropdownArrow: {},
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   dropdown: {
-    width: '80%',
-    maxHeight: 200,
     backgroundColor: 'white',
     borderRadius: 4,
     borderWidth: 1,
@@ -75,6 +71,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+  },
+  dropdownAbove: {
+    shadowOffset: { width: 0, height: -2 }, // Reverse shadow for above position
   },
   dropdownItem: {
     padding: 8,
