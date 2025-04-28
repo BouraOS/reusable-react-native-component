@@ -1,7 +1,29 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
-const RadioButton = ({
+interface RadioButtonProps {
+  selected?: boolean;
+  onPress: () => void;
+  disabled?: boolean;
+  label?: string;
+  labelPosition?: 'left' | 'right';
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  size?: number;
+  borderColor?: string;
+  innerCircleColor?: string;
+  accessibilityLabel?: string;
+}
+
+const RadioButton: React.FC<RadioButtonProps> = ({
   selected = false,
   onPress,
   disabled = false,
@@ -10,7 +32,8 @@ const RadioButton = ({
   style,
   labelStyle,
   size = 24,
-  color = '#007bff',
+  borderColor = '#007bff',
+  innerCircleColor = '#674459',
   accessibilityLabel = 'Radio Button',
 }) => {
   return (
@@ -19,7 +42,7 @@ const RadioButton = ({
         styles.container,
         { flexDirection: labelPosition === 'left' ? 'row-reverse' : 'row' },
       ]}
-      onPress={!disabled ? onPress : null}
+      onPress={!disabled ? onPress : undefined}
       disabled={disabled}
       accessibilityRole="radio"
       accessibilityLabel={accessibilityLabel}
@@ -30,7 +53,7 @@ const RadioButton = ({
           {
             width: size,
             height: size,
-            borderColor: disabled ? '#d6d6d6' : color,
+            borderColor: disabled ? '#d6d6d6' : borderColor,
           },
           style,
         ]}>
@@ -39,7 +62,7 @@ const RadioButton = ({
             style={[
               styles.innerCircle,
               {
-                backgroundColor: disabled ? '#d6d6d6' : color,
+                backgroundColor: disabled ? '#d6d6d6' : innerCircleColor,
                 width: size / 2,
                 height: size / 2,
               },
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   innerCircle: {
-    borderRadius: 50,
+    borderRadius: 40,
   },
   label: {
     marginLeft: 8,
